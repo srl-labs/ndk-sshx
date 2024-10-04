@@ -1,0 +1,18 @@
+name: "ndk-sshx" # name of the go package
+arch: "amd64" # architecture you are using
+version: "0.0.0-dev" # version of this rpm package
+maintainer: "Roman Dodin <roman@dodin.dev>"
+description: "SSHX NDK application" # description of a package
+vendor: "Nokia" # optional information about the creator of the package
+license: "Apache-2.0" # license of the package
+scripts:
+  postinstall: postinstall.sh # post-installation script that can, for example, reload app_mgr
+contents: # contents to add to the package
+  - src: "./build/sshx" # local path of agent binary
+    dst: "/usr/local/bin/sshx" # destination path of agent binary
+
+  - src: "./yang" # local path of agent's YANG directory
+    dst: "/opt/sshx/yang" # destination path of agent YANG
+
+  - src: "./sshx.yml" # local path of agent yml
+    dst: "/etc/opt/srlinux/appmgr/" # destination path of agent yml

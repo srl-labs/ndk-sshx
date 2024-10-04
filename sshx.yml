@@ -1,0 +1,11 @@
+sshx:
+  path: /usr/local/bin
+  launch-command: sshx
+  version-command: sshx --version
+  failure-action: wait=10
+  config-delivery-format: json
+  yang-modules:
+    names:
+      - sshx
+    source-directories:
+      - /opt/sshx/yang

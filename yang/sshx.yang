@@ -1,0 +1,43 @@
+module sshx {
+  yang-version 1.1;
+  namespace "urn:srlinux.dev:ndk:sshx";
+  prefix ndk-sshx;
+
+  import srl_nokia-common {
+    prefix srl-comm;
+  }
+
+  description
+    "sshx YANG module";
+
+  revision 2024-10-04 {
+    description
+      "initial release";
+  }
+
+  container sshx {
+    leaf admin-state {
+      type srl-comm:admin-state;
+      default "disable";
+      description
+        "Globally enable or disable the SSHX client
+
+         Enabling the SSHX client will start the sshx binary and update the url value.";
+    }
+    leaf shell {
+      type enumeration {
+        enum /bin/bash;
+        enum sr_cli;
+      }
+      description
+        "Specifies the shell to use for the SSHX connection";
+      default "sr_cli";
+    }
+    leaf url {
+      description
+        "URL of the SSHX.io service";
+      type string;
+      config false;
+    }
+  }
+}
