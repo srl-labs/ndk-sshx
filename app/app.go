@@ -12,8 +12,7 @@ const (
 	AppRoot = "/" + AppName
 )
 
-// App is the greeter application struct.
-
+// App defines the application.
 type App struct {
 	Name string
 	// configState holds the application configuration and state.
@@ -25,8 +24,7 @@ type App struct {
 	sshxPid          int  // pid of a running sshx process
 }
 
-// NewApp creates a new Greeter App instance and connects to NDK socket.
-// It also creates the NDK service clients and registers the agent with NDK.
+// New creates a new App instance and connects to the NDK socket.
 func New(logger *zerolog.Logger, agent *bond.Agent) *App {
 	return &App{
 		Name:     AppName,

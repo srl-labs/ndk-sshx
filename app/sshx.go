@@ -22,19 +22,7 @@ var shells = map[string]string{
 func (a *App) startSSHX(ctx context.Context) {
 	a.logger.Info().Msg("Starting sshx")
 
-	// kill previous sshx process if it exists
-	if a.sshxPid != 0 {
-		a.logger.Info().
-			Int("PID", a.sshxPid).
-			Msg("Killing previous sshx process")
-
-		err := exec.CommandContext(ctx, "kill", "-9", strconv.Itoa(a.sshxPid)).Run()
-		if err != nil {
-			a.logger.Err(err).
-				Int("PID", a.sshxPid).
-				Msg("Failed to kill previous sshx process")
-		}
-	}
+	a.KillSSHX(ctx, a.sshxPid)
 
 	cmd := exec.CommandContext(ctx, "ip", "netns", "exec", "srbase-mgmt", SSHXBinPath, "--shell", shells[a.configState.Shell])
 
@@ -51,7 +39,8 @@ func (a *App) startSSHX(ctx context.Context) {
 		for scanner.Scan() {
 			line := scanner.Text()
 
-			a.logger.Info().Msg(line)
+			// uncomment to see the captured output
+			// a.logger.Info().Msg(line)
 
 			if strings.Contains(line, "https://sshx.io") {
 				url := extractURL(line)
@@ -100,4 +89,21 @@ func extractURL(line string) string {
 	// Simple regex to extract URL
 	re := regexp.MustCompile(`https://sshx\.io/s/[A-Za-z0-9#]+`)
 	return re.FindString(line)
+}
+
+// KillSSHX kills the sshx process.
+func (a *App) KillSSHX(ctx context.Context, pid int) {
+	// kill previous sshx process if it exists
+	if a.sshxPid != 0 {
+		a.logger.Info().
+			Int("PID", a.sshxPid).
+			Msg("Killing previous sshx process")
+
+		err := exec.CommandContext(ctx, "kill", "-9", strconv.Itoa(a.sshxPid)).Run()
+		if err != nil {
+			a.logger.Err(err).
+				Int("PID", a.sshxPid).
+				Msg("Failed to kill previous sshx process")
+		}
+	}
 }

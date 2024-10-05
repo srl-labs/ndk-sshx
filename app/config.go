@@ -21,11 +21,14 @@ type ConfigState struct {
 
 func NewConfigState() *ConfigState {
 	return &ConfigState{
+		// set the defaultShell to avoid requiring gnmi
+		// server to return defaults. This is though possible
+		// with a config knob in the gnmi server.
 		Shell: defaultShell,
 	}
 }
 
-// loadConfig loads configuration changes for greeter application.
+// loadConfig loads configuration changes for the application.
 func (a *App) loadConfig() {
 	prevAdminState := a.configState.AdminState
 	prevShell := a.configState.Shell
@@ -64,5 +67,10 @@ func (a *App) processConfig(ctx context.Context) {
 
 	if a.configState.AdminState == "enable" && a.restartRequested {
 		a.startSSHX(ctx)
+	}
+
+	if a.configState.AdminState == "disable" && a.restartRequested {
+		a.KillSSHX(ctx, a.sshxPid)
+		a.configState.URL = ""
 	}
 }
