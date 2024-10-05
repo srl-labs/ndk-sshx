@@ -4,7 +4,6 @@ go 1.22.1
 
 require (
 	github.com/RackSec/srslog v0.0.0-20180709174129-a4725f04ec91
-	github.com/openconfig/gnmic/pkg/api v0.1.8
 	github.com/rs/zerolog v1.33.0
 	github.com/srl-labs/bond v0.1.0-rc2
 	gopkg.in/natefinch/lumberjack.v2 v2.2.1
@@ -20,6 +19,7 @@ require (
 	github.com/mattn/go-isatty v0.0.20 // indirect
 	github.com/nokia/srlinux-ndk-go v0.4.0-rc1 // indirect
 	github.com/openconfig/gnmi v0.11.0 // indirect
+	github.com/openconfig/gnmic/pkg/api v0.1.8 // indirect
 	github.com/openconfig/grpctunnel v0.1.0 // indirect
 	golang.org/x/net v0.24.0 // indirect
 	golang.org/x/oauth2 v0.19.0 // indirect

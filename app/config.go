@@ -27,11 +27,32 @@ func NewConfigState() *ConfigState {
 
 // loadConfig loads configuration changes for greeter application.
 func (a *App) loadConfig() {
+	prevAdminState := a.configState.AdminState
+	prevShell := a.configState.Shell
+
 	a.configState = NewConfigState() // re-initialize config state
 	if a.NDKAgent.Notifications.FullConfig != nil {
 		err := json.Unmarshal(a.NDKAgent.Notifications.FullConfig, a.configState)
 		if err != nil {
 			a.logger.Error().Err(err).Msg("Failed to unmarshal config")
+		}
+
+		if a.configState.AdminState == "enable" && prevAdminState != a.configState.AdminState {
+			a.logger.Info().
+				Str("new admin-state", a.configState.AdminState).
+				Str("prev admin-state", prevAdminState).
+				Msg("Admin state changed")
+
+			a.restartRequested = true
+		}
+
+		if prevShell != a.configState.Shell {
+			a.logger.Info().
+				Str("new shell", a.configState.Shell).
+				Str("prev shell", prevShell).
+				Msg("Shell changed")
+
+			a.restartRequested = true
 		}
 	}
 }
@@ -41,7 +62,7 @@ func (a *App) loadConfig() {
 func (a *App) processConfig(ctx context.Context) {
 	a.logger.Info().Msg("Start processing config")
 
-	if a.configState.AdminState == "enable" {
-		a.runSSHX(ctx)
+	if a.configState.AdminState == "enable" && a.restartRequested {
+		a.startSSHX(ctx)
 	}
 }

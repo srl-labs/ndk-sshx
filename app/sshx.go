@@ -5,6 +5,7 @@ import (
 	"context"
 	"os/exec"
 	"regexp"
+	"strconv"
 	"strings"
 	"time"
 )
@@ -18,13 +19,24 @@ var shells = map[string]string{
 	"bash": "/bin/bash",
 }
 
-func (a *App) runSSHX(ctx context.Context) {
+func (a *App) startSSHX(ctx context.Context) {
 	a.logger.Info().Msg("Starting sshx")
 
-	cmd := exec.CommandContext(ctx, "ip", "netns", "exec", "srbase-mgmt", SSHXBinPath, "--shell", shells[a.configState.Shell])
+	// kill previous sshx process if it exists
+	if a.sshxPid != 0 {
+		a.logger.Info().
+			Int("PID", a.sshxPid).
+			Msg("Killing previous sshx process")
 
-	// Set the process group ID to create a new process group
-	// cmd.SysProcAttr = &syscall.SysProcAttr{Setpgid: true}
+		err := exec.CommandContext(ctx, "kill", "-9", strconv.Itoa(a.sshxPid)).Run()
+		if err != nil {
+			a.logger.Err(err).
+				Int("PID", a.sshxPid).
+				Msg("Failed to kill previous sshx process")
+		}
+	}
+
+	cmd := exec.CommandContext(ctx, "ip", "netns", "exec", "srbase-mgmt", SSHXBinPath, "--shell", shells[a.configState.Shell])
 
 	stdout, err := cmd.StdoutPipe()
 	if err != nil {
@@ -59,7 +71,7 @@ func (a *App) runSSHX(ctx context.Context) {
 		return
 	}
 
-	// Print PID
+	a.sshxPid = cmd.Process.Pid
 	a.logger.Info().
 		Int("PID", cmd.Process.Pid).
 		Msg("sshx started")
