@@ -205,7 +205,11 @@ function show-app-status {
 }
 
 function restart-app {
-	sudo clab exec --label containerlab=${APPNAME} --cmd "sr_cli tools system app-management application ${APPNAME} restart"
+	# app restart sends sigkill that can't be trapped
+	# to gracefully restart the app, we need to stop/start it
+	sudo clab exec --label containerlab=${APPNAME} --cmd "sr_cli tools system app-management application ${APPNAME} stop"
+	sleep 5
+	sudo clab exec --label containerlab=${APPNAME} --cmd "sr_cli tools system app-management application ${APPNAME} start"
 }
 
 function reload-app {

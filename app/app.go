@@ -46,7 +46,7 @@ func (a *App) Start(ctx context.Context) {
 
 			a.loadConfig()
 
-			a.processConfig()
+			a.processConfig(ctx)
 
 			a.updateState()
 

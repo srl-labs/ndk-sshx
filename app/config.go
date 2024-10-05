@@ -1,6 +1,7 @@
 package app
 
 import (
+	"context"
 	"encoding/json"
 )
 
@@ -37,10 +38,10 @@ func (a *App) loadConfig() {
 
 // processConfig processes the configuration received from the config notification stream
 // and retrieves the uptime from the system.
-func (a *App) processConfig() {
+func (a *App) processConfig(ctx context.Context) {
 	a.logger.Info().Msg("Start processing config")
 
 	if a.configState.AdminState == "enable" {
-		a.runSSHX()
+		a.runSSHX(ctx)
 	}
 }

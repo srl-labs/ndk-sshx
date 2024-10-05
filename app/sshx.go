@@ -2,6 +2,7 @@ package app
 
 import (
 	"bufio"
+	"context"
 	"os/exec"
 	"regexp"
 	"strings"
@@ -12,9 +13,15 @@ const (
 	SSHXBinPath = "/opt/sshx/sshx-bin"
 )
 
-func (a *App) runSSHX() {
+var shells = map[string]string{
+	"cli":  "sr_cli",
+	"bash": "/bin/bash",
+}
+
+func (a *App) runSSHX(ctx context.Context) {
 	a.logger.Info().Msg("Starting sshx")
-	cmd := exec.Command("ip", "netns", "exec", "srbase-mgmt", SSHXBinPath)
+
+	cmd := exec.CommandContext(ctx, "ip", "netns", "exec", "srbase-mgmt", SSHXBinPath, "--shell", shells[a.configState.Shell])
 
 	// Set the process group ID to create a new process group
 	// cmd.SysProcAttr = &syscall.SysProcAttr{Setpgid: true}
