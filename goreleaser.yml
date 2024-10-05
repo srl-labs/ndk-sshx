@@ -1,5 +1,5 @@
 version: 2
-project_name: greeter
+project_name: sshx
 builds:
   - id: bin
     env:
@@ -34,7 +34,7 @@ snapshot:
 publishers:
   - name: fury.io deb/rpm packages
     ids:
-      - greeter-nfpms # this id belongs to nfpm section and is used to only upload artifacts from nfpm
+      - nfpms # this id belongs to nfpm section and is used to only upload artifacts from nfpm
     dir: "{{ dir .ArtifactPath }}"
     cmd: curl -F package=@{{ .ArtifactName }} https://{{ .Env.FURY_TOKEN }}@push.fury.io/srlinux/
 
@@ -45,13 +45,13 @@ changelog:
   use: github-native
 
 nfpms:
-  - id: greeter-nfpms
+  - id: nfpms
     file_name_template: '{{ .ProjectName }}_{{ replace .Version "v" "" }}_{{ .Os }}_{{ .Arch }}'
     package_name: ndk-{{ .ProjectName }}-go
     maintainer: Roman Dodin <dodin.roman@gmail.com>
     homepage: https://learn.srlinux.dev
     description: |
-      Greeter NDK app
+      SSHX NDK app
     vendor: Nokia
     license: GNU GPLv3
     formats:
@@ -60,6 +60,8 @@ nfpms:
       postinstall: postinstall.sh
     bindir: /usr/local/bin
     contents:
+      - src: ./bin/sshx-0.2.5
+        dst: /opt/{{ .ProjectName }}/sshx-bin
       - src: ./yang
         dst: /opt/{{ .ProjectName }}/yang
       - src: ./{{ .ProjectName }}.yml
