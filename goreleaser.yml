@@ -22,7 +22,7 @@ upx:
 archives:
   - name_template: '{{ .ProjectName }}_{{ replace .Version "v" "" }}_{{ .Os }}_{{ .Arch }}'
     files:
-      - yang/**/*
+      - "yang/*.yang"
       - "app/{{ .ProjectName }}.yml"
 
 checksum:
@@ -64,5 +64,5 @@ nfpms:
         dst: /opt/{{ .ProjectName }}/sshx-bin
       - src: ./yang
         dst: /opt/{{ .ProjectName }}/yang
-      - src: ./{{ .ProjectName }}.yml
+      - src: ./app/{{ .ProjectName }}.yml
         dst: /etc/opt/srlinux/appmgr/
