@@ -1,4 +1,4 @@
-package sshx
+package app
 
 import (
 	"encoding/json"

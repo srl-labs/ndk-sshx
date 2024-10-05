@@ -11,7 +11,7 @@ topology:
         - touch /tmp/.ndk-dev-mode
       binds:
         - ../build:/tmp/build # mount app binary
-        - ../sshx.yml:/tmp/sshx.yml # agent config file to appmgr directory
+        - ../app/sshx.yml:/tmp/sshx.yml # agent config file to appmgr directory
         - ../yang:/opt/sshx/yang # yang modules
         - ../logs/srl:/var/log/srlinux # expose srlinux logs
         - ../logs/sshx/:/var/log/sshx # expose greeter log file

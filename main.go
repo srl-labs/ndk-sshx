@@ -8,7 +8,7 @@ import (
 	"io"
 	"os"
 
-	"ghcr.io/srl-labs/ndk-sshx/sshx"
+	"ghcr.io/srl-labs/ndk-sshx/app"
 	syslog "github.com/RackSec/srslog"
 
 	"github.com/rs/zerolog"
@@ -40,10 +40,10 @@ func main() {
 	opts := []bond.Option{
 		bond.WithLogger(&logger),
 		bond.WithContext(ctx, cancel),
-		bond.WithAppRootPath(sshx.AppRoot),
+		bond.WithAppRootPath(app.AppRoot),
 	}
 
-	agent, errs := bond.NewAgent(sshx.AppName, opts...)
+	agent, errs := bond.NewAgent(app.AppName, opts...)
 	for _, err := range errs {
 		if err != nil {
 			logger.Fatal().Err(err).Msg("Failed to create agent")
@@ -55,7 +55,7 @@ func main() {
 		logger.Fatal().Err(err).Msg("Failed to start agent")
 	}
 
-	app := sshx.New(&logger, agent)
+	app := app.New(&logger, agent)
 	app.Start(ctx)
 }
 
@@ -90,7 +90,7 @@ func setupLogger() zerolog.Logger {
 	}
 
 	var zsyslog zerolog.SyslogWriter
-	zsyslog, err = syslog.Dial("", "", syslog.LOG_INFO|syslog.LOG_LOCAL7, "ndk-sshx-go")
+	zsyslog, err = syslog.Dial("", "", syslog.LOG_INFO|syslog.LOG_LOCAL7, "ndk-sshx")
 	if err != nil {
 		panic(err)
 	}

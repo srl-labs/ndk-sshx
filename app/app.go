@@ -1,7 +1,4 @@
-// --8<-- [start:pkg-greeter]
-package sshx
-
-// --8<-- [end:pkg-greeter]
+package app
 
 import (
 	"context"
