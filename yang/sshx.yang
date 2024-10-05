@@ -26,12 +26,12 @@ module sshx {
     }
     leaf shell {
       type enumeration {
-        enum /bin/bash;
-        enum sr_cli;
+        enum cli;
+        enum bash;
       }
       description
         "Specifies the shell to use for the SSHX connection";
-      default "sr_cli";
+      default "cli";
     }
     leaf url {
       description

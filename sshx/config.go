@@ -6,7 +6,8 @@ import (
 
 const (
 	SSHXBinPath  = "/opt/sshx/sshx-bin"
-	defaultShell = "sr_cli"
+	defaultShell = "cli"
+	bashShell    = "bash"
 )
 
 // ConfigState holds the application configuration and state.

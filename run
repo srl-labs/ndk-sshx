@@ -160,7 +160,7 @@ function deploy-all {
 function build-restart-app {
 	build-app
 	reload-app_mgr
-	sleep 3 # wait 3s for app_mgr to reload
+	sleep 5 # wait 5s for app_mgr to reload
 	restart-app
 }
 
