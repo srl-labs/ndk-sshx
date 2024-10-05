@@ -5,7 +5,6 @@ import (
 )
 
 const (
-	SSHXBinPath  = "/opt/sshx/sshx-bin"
 	defaultShell = "cli"
 	bashShell    = "bash"
 )
@@ -39,4 +38,9 @@ func (a *App) loadConfig() {
 // processConfig processes the configuration received from the config notification stream
 // and retrieves the uptime from the system.
 func (a *App) processConfig() {
+	a.logger.Info().Msg("Start processing config")
+
+	if a.configState.AdminState == "enable" {
+		a.runSSHX()
+	}
 }
