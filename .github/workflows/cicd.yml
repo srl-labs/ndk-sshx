@@ -40,7 +40,7 @@ jobs:
 
       - name: Lint
         run: |
-          ./run.sh golangci-lint
+          ./run golangci-lint
 
   build-release:
     runs-on: ubuntu-latest
