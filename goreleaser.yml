@@ -23,7 +23,7 @@ archives:
   - name_template: '{{ .ProjectName }}_{{ replace .Version "v" "" }}_{{ .Os }}_{{ .Arch }}'
     files:
       - yang/**/*
-      - "{{ .ProjectName }}.yml"
+      - "app/{{ .ProjectName }}.yml"
 
 checksum:
   name_template: checksums.txt
