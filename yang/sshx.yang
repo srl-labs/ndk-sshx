@@ -20,22 +20,28 @@ module sshx {
       type srl-comm:admin-state;
       default "disable";
       description
-        "Globally enable or disable the SSHX client
+        "Globally enable or disable the sshx.io tunnel
 
          Enabling the SSHX client will start the sshx binary and update the url value.";
     }
     leaf shell {
       type enumeration {
-        enum cli;
-        enum bash;
+        enum cli {
+          description
+            "SR Linux CLI shell";
+        }
+        enum bash {
+          description
+            "Bash shell";
+        }
       }
       description
-        "Specifies the shell to use for the SSHX connection";
+        "The shell to use for the new windows in the SSHX web terminal";
       default "cli";
     }
     leaf url {
       description
-        "URL of the SSHX.io service";
+        "URL of the SSHX.io web service";
       type string;
       config false;
     }

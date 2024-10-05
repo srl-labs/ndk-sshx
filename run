@@ -142,10 +142,11 @@ function build-app {
 # High-Level run functions
 #################################
 function download-sshx {
-	(cd bin && \
-curl -sLO https://gitlab.com/rdodin/pics/-/wikis/uploads/bb91f001b8a75afe37375ae9ee8e2305/sshx-0.2.5 && \
-chmod +x sshx-0.2.5
-)
+	(
+		cd bin &&
+			curl -sLO https://gitlab.com/rdodin/pics/-/wikis/uploads/bb91f001b8a75afe37375ae9ee8e2305/sshx-0.2.5 &&
+			chmod +x sshx-0.2.5
+	)
 }
 
 function deploy-all {
