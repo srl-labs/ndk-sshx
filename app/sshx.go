@@ -15,7 +15,9 @@ const (
 )
 
 var shells = map[string]string{
-	"cli":  "sr_cli",
+	// cli login script uses `su - <user>`
+	// which enters in sr_cli as the provided user
+	"cli":  "/opt/sshx/cli-login.sh",
 	"bash": "/bin/bash",
 }
 
@@ -24,7 +26,8 @@ func (a *App) startSSHX(ctx context.Context) {
 
 	a.KillSSHX(ctx, a.sshxPid)
 
-	cmd := exec.CommandContext(ctx, "ip", "netns", "exec", "srbase-mgmt", SSHXBinPath, "--shell", shells[a.configState.Shell])
+	cmd := exec.CommandContext(ctx, "ip", "netns", "exec", "srbase-mgmt",
+		SSHXBinPath, "--shell", shells[a.configState.Shell])
 
 	stdout, err := cmd.StdoutPipe()
 	if err != nil {

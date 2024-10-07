@@ -2,6 +2,7 @@ sshx:
   path: /usr/local/bin
   launch-command: sshx
   version-command: sshx --version
+  run-as-user: root
   failure-action: wait=10
   config-delivery-format: json
   yang-modules:

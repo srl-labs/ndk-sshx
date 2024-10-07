@@ -24,6 +24,7 @@ archives:
     files:
       - "yang/*.yang"
       - "app/{{ .ProjectName }}.yml"
+      - "app/cli-login.sh"
 
 checksum:
   name_template: checksums.txt
@@ -66,3 +67,5 @@ nfpms:
         dst: /opt/{{ .ProjectName }}/yang
       - src: ./app/{{ .ProjectName }}.yml
         dst: /etc/opt/srlinux/appmgr/
+      - src: ./app/cli-login.sh
+        dst: /opt/{{ .ProjectName }}/cli-login.sh
